@@ -1,0 +1,33 @@
+{
+  "name": "@compute-atlas/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts dev",
+    "worker:ingest": "tsx src/index.ts ingest",
+    "worker:compute": "tsx src/index.ts compute",
+    "publish:devnet": "tsx src/index.ts publish",
+    "verify:devnet": "tsx src/index.ts verify-devnet",
+    "worker:pipeline": "tsx src/index.ts pipeline",
+    "solana:keypair:create": "tsx src/index.ts solana:keypair:create",
+    "solana:keypair:balance": "tsx src/index.ts solana:keypair:balance",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "biome check src",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@compute-atlas/config": "workspace:*",
+    "@compute-atlas/db": "workspace:*",
+    "@compute-atlas/methodology": "workspace:*",
+    "@compute-atlas/observability": "workspace:*",
+    "@compute-atlas/providers": "workspace:*",
+    "@compute-atlas/publisher-solana": "workspace:*",
+    "@compute-atlas/types": "workspace:*",
+    "drizzle-orm": "0.45.1",
+    "dotenv": "17.2.3"
+  }
+}

@@ -1,0 +1,15 @@
+node_modules
+.turbo
+.next
+dist
+coverage
+.pnpm-store
+.env
+.DS_Store
+tmp
+*.log
+apps/web/.next
+apps/web/out
+packages/db/drizzle/meta
+data
+apps/worker/data

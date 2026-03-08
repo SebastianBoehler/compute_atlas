@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@compute-atlas/api-contract": ["packages/api-contract/src/index.ts"],
+      "@compute-atlas/config": ["packages/config/src/index.ts"],
+      "@compute-atlas/db": ["packages/db/src/index.ts"],
+      "@compute-atlas/methodology": ["packages/methodology/src/index.ts"],
+      "@compute-atlas/observability": ["packages/observability/src/index.ts"],
+      "@compute-atlas/provider-sdk": ["packages/provider-sdk/src/index.ts"],
+      "@compute-atlas/providers": ["packages/providers/src/index.ts"],
+      "@compute-atlas/publisher-sdk": ["packages/publisher-sdk/src/index.ts"],
+      "@compute-atlas/publisher-solana": [
+        "packages/publisher-solana/src/index.ts"
+      ],
+      "@compute-atlas/testkit": ["packages/testkit/src/index.ts"],
+      "@compute-atlas/types": ["packages/types/src/index.ts"]
+    }
+  }
+}

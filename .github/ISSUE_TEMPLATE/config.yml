@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: mailto:security@computeatlas.dev
+    about: Report suspected vulnerabilities privately.
+  - name: Governance and roadmap
+    url: https://github.com/SebastianBoehler/compute_atlas/discussions
+    about: Use discussions for larger roadmap or methodology conversations.

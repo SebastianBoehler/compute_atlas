@@ -1,0 +1,18 @@
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: compute-atlas-worker
+spec:
+  template:
+    template:
+      spec:
+        taskCount: 1
+        template:
+          spec:
+            containers:
+              - image: us-central1-docker.pkg.dev/YOUR_GCP_PROJECT/compute-atlas/worker:latest
+                command: ['pnpm']
+                args: ['--filter', '@compute-atlas/worker', 'worker:pipeline']
+            maxRetries: 1
+            timeoutSeconds: 1800
+

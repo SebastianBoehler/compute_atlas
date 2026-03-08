@@ -1,0 +1,26 @@
+FROM node:22-alpine AS base
+WORKDIR /app
+RUN corepack enable
+
+FROM base AS deps
+COPY package.json pnpm-workspace.yaml turbo.json tsconfig.base.json biome.json ./
+COPY apps/web/package.json apps/web/package.json
+COPY apps/worker/package.json apps/worker/package.json
+COPY packages/api-contract/package.json packages/api-contract/package.json
+COPY packages/config/package.json packages/config/package.json
+COPY packages/db/package.json packages/db/package.json
+COPY packages/methodology/package.json packages/methodology/package.json
+COPY packages/observability/package.json packages/observability/package.json
+COPY packages/provider-sdk/package.json packages/provider-sdk/package.json
+COPY packages/providers/package.json packages/providers/package.json
+COPY packages/publisher-sdk/package.json packages/publisher-sdk/package.json
+COPY packages/publisher-solana/package.json packages/publisher-solana/package.json
+COPY packages/testkit/package.json packages/testkit/package.json
+COPY packages/types/package.json packages/types/package.json
+RUN pnpm install --frozen-lockfile
+
+FROM deps AS runner
+COPY . .
+ENV NODE_ENV=production
+CMD ["pnpm", "--filter", "@compute-atlas/worker", "worker:pipeline"]
+

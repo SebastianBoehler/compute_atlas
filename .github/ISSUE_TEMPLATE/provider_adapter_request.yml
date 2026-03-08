@@ -1,0 +1,27 @@
+name: Provider adapter request
+description: Request support for a new compute provider or pricing feed.
+title: "[Provider]: "
+labels: ["provider", "enhancement"]
+body:
+  - type: input
+    id: provider_name
+    attributes:
+      label: Provider name
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: API or pricing source
+      description: Link docs, pricing pages, or sample payloads.
+    validations:
+      required: true
+  - type: textarea
+    id: markets
+    attributes:
+      label: Expected markets
+      description: Which GPU models, regions, or price types matter?
+  - type: textarea
+    id: notes
+    attributes:
+      label: Authentication or quota notes

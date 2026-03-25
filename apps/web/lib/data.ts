@@ -55,6 +55,7 @@ export const getDashboardSummary = async () => {
     listInstrumentsRequest(),
     listPublicationsRequest(),
   ]);
+
   return {
     providerCount: providers.length,
     instrumentCount: instruments.length,
@@ -89,7 +90,7 @@ export const getInstrumentHistory = (
   );
 
 export const getMethodologyReport = async () => {
-  const entries = await Promise.all(
+  return Promise.all(
     Object.entries(instrumentConfigs).map(async ([symbol, config]) => {
       const latest = await getLatestPricePointRequest(symbol);
       return {
@@ -110,8 +111,6 @@ export const getMethodologyReport = async () => {
       };
     }),
   );
-
-  return entries;
 };
 
 export const getPublicationExplorerData = () =>

@@ -24,9 +24,9 @@ const envSchema = z.object({
     .string()
     .default('true')
     .transform((value) => value === 'true'),
-  USE_MOCK_PROVIDERS: z
+  ENABLE_PUBLICATIONS: z
     .string()
-    .default('true')
+    .default('false')
     .transform((value) => value === 'true'),
   SOLANA_RPC_URL: z.string().url().default('https://api.devnet.solana.com'),
   SOLANA_RPC_WS_URL: z.string().default('wss://api.devnet.solana.com'),
@@ -40,12 +40,13 @@ const envSchema = z.object({
   SOLANA_MEMO_MAX_BYTES: z.coerce.number().default(512),
   PIPELINE_DEFAULT_SYMBOLS: z
     .string()
-    .default('H100_GLOBAL_SPOT,H100_EU_SPOT,A100_GLOBAL_SPOT'),
-  PUBLISH_SYMBOLS: z.string().default('H100_GLOBAL_SPOT,A100_GLOBAL_SPOT'),
-  CUSTOM_JSON_FEED_URL: z
-    .string()
-    .url()
-    .default('http://localhost:3000/mock/custom-provider.json'),
+    .default(
+      'H100_GLOBAL_ON_DEMAND,H100_GLOBAL_SPOT,A100_GLOBAL_ON_DEMAND,A100_GLOBAL_SPOT,H200_GLOBAL_ON_DEMAND,H200_GLOBAL_SPOT',
+    ),
+  PUBLISH_SYMBOLS: z.string().default(''),
+  GCP_BILLING_API_KEY: z.string().default(''),
+  RUNPOD_API_KEY: z.string().default(''),
+  VAST_API_KEY: z.string().default(''),
   NEXT_PUBLIC_APP_NAME: z.string().default('Compute Atlas'),
   NEXT_PUBLIC_REPOSITORY_URL: z
     .string()

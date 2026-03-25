@@ -39,7 +39,7 @@ export default async function AdminPage() {
             {
               environment: env.NODE_ENV,
               timescaleEnabled: env.TIMESCALE_ENABLED,
-              useMockProviders: env.USE_MOCK_PROVIDERS,
+              enablePublications: env.ENABLE_PUBLICATIONS,
               summary,
             },
             null,

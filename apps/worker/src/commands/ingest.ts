@@ -15,10 +15,9 @@ export const runIngest = async () => {
     id: provider.id,
     slug: provider.slug,
     name: provider.name,
-    category: provider.slug === 'custom-json' ? 'custom_feed' : 'cloud_compute',
+    category: 'cloud_compute',
     metadata: {
       capabilities: provider.capabilities,
-      mock: true,
     },
   }));
 

@@ -11,7 +11,7 @@ const baseObservation = (
 ): RawPriceObservation => ({
   id: crypto.randomUUID(),
   providerId: 'provider-1',
-  providerSlug: 'aws',
+  providerSlug: 'azure',
   observedAt: '2026-03-08T12:00:00.000Z',
   fetchedAt: '2026-03-08T12:05:00.000Z',
   region: 'us-east-1',
@@ -46,25 +46,25 @@ describe('computeIndex', () => {
     const config = instrumentConfigs.H100_GLOBAL_SPOT;
     const result = computeIndex(config, [
       baseObservation({
-        providerId: 'provider-aws',
-        providerSlug: 'aws',
+        providerId: 'provider-azure',
+        providerSlug: 'azure',
         price: 2.5,
       }),
       baseObservation({
-        providerId: 'provider-gcp',
-        providerSlug: 'gcp',
+        providerId: 'provider-azure',
+        providerSlug: 'azure',
         region: 'eu-west4',
         price: 2.6,
       }),
       baseObservation({
-        providerId: 'provider-runpod',
-        providerSlug: 'runpod',
+        providerId: 'provider-azure',
+        providerSlug: 'azure',
         region: 'global',
         price: 2.4,
       }),
       baseObservation({
-        providerId: 'provider-custom',
-        providerSlug: 'custom-json',
+        providerId: 'provider-azure',
+        providerSlug: 'azure',
         region: 'eu-central',
         price: 9.9,
       }),

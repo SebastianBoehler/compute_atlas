@@ -11,8 +11,8 @@ export default async function ProvidersPage() {
     <div className="stack">
       <PageHero
         eyebrow="Source transparency"
-        title="Provider inputs stay visible."
-        description="The dashboard should make it obvious which providers feed the oracle, what category they belong to, and whether they are currently active in the normalized data set."
+        title="Providers should read like data sources, not protocol integrations."
+        description="This registry shows which providers feed the aggregator, what type of market they represent, and whether they are active in the current normalized price set."
       />
       <SectionCard title="Provider registry" eyebrow="Sources">
         <div className="table-wrap">

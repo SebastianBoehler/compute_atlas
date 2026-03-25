@@ -10,9 +10,9 @@ export default async function MethodologyPage() {
   return (
     <div className="stack">
       <PageHero
-        eyebrow="Index construction"
-        title="Methodology is part of the product, not a footnote."
-        description="Each instrument filters stale data, removes obvious outliers, normalizes units and currency, and computes a robust weighted median. The latest point retains source count, exclusion reasons, and confidence context."
+        eyebrow="Normalization logic"
+        title="Methodology still matters, but it serves the tracker."
+        description="Price aggregation is only useful when source prices are normalized consistently. Each instrument filters stale data, removes obvious outliers, aligns units, and retains source-count context."
       />
 
       {report.map((entry) => (

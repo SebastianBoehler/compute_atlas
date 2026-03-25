@@ -3,7 +3,7 @@ WORKDIR /app
 RUN corepack enable
 
 FROM base AS deps
-COPY package.json pnpm-workspace.yaml turbo.json tsconfig.base.json biome.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.base.json biome.json ./
 COPY apps/web/package.json apps/web/package.json
 COPY apps/worker/package.json apps/worker/package.json
 COPY packages/api-contract/package.json packages/api-contract/package.json
@@ -35,4 +35,3 @@ COPY --from=builder /app/apps/web ./apps/web
 COPY --from=builder /app/packages ./packages
 EXPOSE 3000
 CMD ["pnpm", "--filter", "@compute-atlas/web", "start"]
-

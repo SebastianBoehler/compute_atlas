@@ -2,17 +2,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('next/link', () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) =>
-    React.createElement('a', { href }, children),
-}));
-
 vi.mock('../lib/data', () => ({
-  getDashboardSummary: vi.fn(async () => ({
-    providerCount: 7,
-    instrumentCount: 3,
-    publicationCount: 2,
-  })),
   getInstrumentsData: vi.fn(async () => [
     {
       id: 'instrument-1',
@@ -22,22 +12,27 @@ vi.mock('../lib/data', () => ({
       priceType: 'spot',
     },
   ]),
-  getPublicationExplorerData: vi.fn(async () => [
+  getInstrumentLatest: vi.fn(async () => ({
+    observedAt: new Date('2026-03-25T12:00:00.000Z').toISOString(),
+    priceUsdPerHour: 2.58,
+    sourceCount: 3,
+    confidenceScore: 0.91,
+  })),
+  getInstrumentHistory: vi.fn(async () => [
     {
-      id: 'publication-1',
-      instrumentSymbol: 'H100_GLOBAL_SPOT',
-      txSignature: 'signature-1',
-      status: 'confirmed',
+      observedAt: new Date('2026-02-25T12:00:00.000Z').toISOString(),
+      priceUsdPerHour: 2.22,
     },
   ]),
 }));
 
 describe('HomePage', () => {
-  it('renders summary content', async () => {
+  it('renders the simplified price board', async () => {
     const { default: HomePage } = await import('./page');
     const html = renderToStaticMarkup(await HomePage());
 
-    expect(html).toContain('Transparent GPU price discovery');
+    expect(html).toContain('GPU price board');
     expect(html).toContain('H100_GLOBAL_SPOT');
+    expect(html).toContain('Straight view of current GPU rates');
   });
 });

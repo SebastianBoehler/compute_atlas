@@ -12,9 +12,9 @@ export default async function InstrumentsPage() {
   return (
     <div className="stack">
       <PageHero
-        eyebrow="Normalized instruments"
-        title="Symbols designed for comparison, not provider noise."
-        description="Each instrument represents a normalized view of a GPU market segment such as model, region, and price type. The point is to make provider-specific listings comparable and auditable."
+        eyebrow="Normalized price views"
+        title="Comparable GPU markets instead of provider-specific SKU clutter."
+        description="Each instrument is a normalized market slice defined by GPU model, region, and price type so the app can compare providers on one surface."
       />
       <SectionCard title="Instrument list" eyebrow="Coverage">
         <div className="table-wrap">

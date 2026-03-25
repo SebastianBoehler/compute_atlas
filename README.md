@@ -1,24 +1,28 @@
 # Compute Atlas
 
-Open-source compute price oracle infrastructure for transparent GPU market
-indexing, public methodology review, and Solana devnet publication.
+Open-source GPU price aggregation for comparing live cloud and marketplace
+rates with explicit source coverage and normalization logic.
 
 [GitHub repository](https://github.com/SebastianBoehler/compute_atlas)
 
 ## Why this exists
 
 GPU pricing is fragmented across cloud vendors and specialized marketplaces.
-Compute Atlas exists to make the aggregation, normalization, and publication
-path inspectable in public:
+Compute Atlas exists to make the aggregation and normalization path inspectable
+in public:
 
 - provider inputs are modular and traceable
 - methodology is explicit and versioned
 - normalized time-series data is queryable
-- onchain publication behavior is reproducible
+- source gaps remain visible instead of being hand-waved away
 
-This repository is intended to be the auditable core. Paid products, if added
-later, should be service layers on top of the same open codebase rather than a
-closed replacement for it.
+This repository is intended to be the auditable core of a practical GPU price
+tracker. Paid products, if added later, should be service layers on top of the
+same open codebase rather than a closed replacement for it.
+
+## Preview
+
+![Compute Atlas live GPU price board](./docs/assets/price-board-home.png)
 
 ## License
 
@@ -29,12 +33,12 @@ paid service layers to be offered later.
 ## Architecture
 
 - `apps/web`: Next.js App Router dashboard plus public API
-- `apps/worker`: ingestion, normalization, Solana publication, and verification
+- `apps/worker`: ingestion, normalization, and optional downstream jobs
 - `packages/db`: schema, migrations, seed data, and query helpers
 - `packages/provider-sdk`: shared adapter interfaces and registry
-- `packages/providers`: fixture-backed provider implementations
+- `packages/providers`: live provider implementations
 - `packages/methodology`: normalization and index calculation
-- `packages/publisher-solana`: Solana devnet memo-based publisher and verifier
+- `packages/publisher-solana`: optional Solana devnet publisher kept separate
 - `packages/api-contract`: typed response schemas and OpenAPI helpers
 
 ## Open-source model
@@ -46,7 +50,6 @@ Open and auditable:
 - methodology logic
 - provider adapter interfaces
 - public API contracts
-- devnet publisher implementation
 - dashboard transparency views
 
 Possible paid layers later:
@@ -56,6 +59,25 @@ Possible paid layers later:
 - higher-availability endpoints
 - premium historical analytics
 - team and access-control features
+
+## Provider source reality
+
+As of March 25, 2026, provider coverage is mixed:
+
+- strong official API paths: AWS, Azure, GCP
+- usable authenticated/API-like paths: Runpod, Vast.ai
+- public-page ingestion candidates: CoreWeave, Lambda
+- weaker first-wave automation candidates: OCI and quote-driven vendors
+
+That means the project works well as a live GPU price aggregator, but it should
+not pretend every major provider exposes equally clean machine-readable price
+feeds from day one.
+
+Current implementation status:
+
+- live now: Azure retail prices API
+- next straightforward additions: GCP Billing Catalog API, Runpod API, Vast.ai API
+- later/manual-ingestion tier: AWS spot/on-demand blending, CoreWeave, Lambda, OCI
 
 See [docs/OPEN_SOURCE_MODEL.md](/Users/sebastianboehler/Documents/GitHub/compute_atlas/docs/OPEN_SOURCE_MODEL.md) and [GOVERNANCE.md](/Users/sebastianboehler/Documents/GitHub/compute_atlas/GOVERNANCE.md).
 
@@ -72,6 +94,24 @@ pnpm install
 pnpm db:migrate
 pnpm db:seed
 pnpm dev
+```
+
+To ingest the first live provider and populate real observations:
+
+```bash
+ENABLE_PUBLICATIONS=false pnpm worker:pipeline
+```
+
+For a containerized web-only preview that matches the production service shape:
+
+```bash
+docker compose -f infra/docker/docker-compose.yml up --build web
+```
+
+For the full containerized stack with Postgres and worker:
+
+```bash
+docker compose -f infra/docker/docker-compose.yml --profile full up --build
 ```
 
 ## Useful commands
@@ -93,12 +133,15 @@ pnpm verify:e2e
 
 - `DATABASE_URL`: Postgres connection string.
 - `TIMESCALE_ENABLED`: Enables Timescale-specific migration steps when the extension exists.
-- `USE_MOCK_PROVIDERS`: Uses fixture-backed adapters instead of live credentials.
+- `ENABLE_PUBLICATIONS`: Enables downstream publication jobs when explicitly needed.
 - `SOLANA_RPC_URL`: Solana devnet RPC endpoint.
 - `SOLANA_RPC_WS_URL`: Solana websocket endpoint.
 - `SOLANA_KEYPAIR_PATH`: Relative path from the repo root for the publisher keypair.
 - `SOLANA_AIRDROP_MIN_BALANCE_SOL`: Auto-airdrop threshold used by verification.
 - `SOLANA_AIRDROP_TARGET_BALANCE_SOL`: Desired balance after airdrop.
+- `GCP_BILLING_API_KEY`: Optional API key for the next provider tier.
+- `RUNPOD_API_KEY`: Optional API key for later Runpod ingestion.
+- `VAST_API_KEY`: Optional API key for later Vast.ai ingestion.
 - `ENABLE_ADMIN_UI`: Enables the admin page.
 - `NEXT_PUBLIC_REPOSITORY_URL`: Repository link shown in the UI.
 
@@ -124,9 +167,9 @@ Deploy assets live in [infra/cloudrun](/Users/sebastianboehler/Documents/GitHub/
 
 ## Current limitations
 
-- Most provider integrations are working mocks until production credentials are
-  added.
-- Solana publication uses the Memo program for MVP verifiability rather than a
-  dedicated custom oracle program.
+- Azure live retail pricing is implemented first; the other providers are still
+  staged behind future adapters.
+- Some large providers expose public APIs, while others will need authenticated
+  APIs or pricing-page ingestion before they can join the board.
 - In-memory rate limiting and caching are suitable for single-instance
   deployments, not scaled multi-instance production.
